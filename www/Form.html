@@ -1,0 +1,91 @@
+<ion-content>
+    <div class="list list-inset">
+        
+          <div class="bar bar-subheader item-input-inset bar-light">
+        <label class="item-input-wrapper">
+           <i class="icon ion-search placeholder-icon"></i>
+            <input type="search" placeholder="Search">
+           
+           
+           </label>
+        
+        
+        </div>
+        
+        
+    <label class="item item-input">
+        <span class="input-label">Amount</span>
+        <input type="text" placeholder="Rs.">
+        </label>
+    
+        <label class="item item-input">
+        <span class="input-label">Amount</span>
+        <input type="text" placeholder="Rs.">
+        </label>
+        
+        
+     <label class="item item-input">
+        
+         <textarea placeholder="Notes"></textarea>
+        </label>
+       
+        <div class="item item-checkbox">
+        <label class="checkbox">
+            <input type="checkbox">
+        </label>
+            <span class="input-label">Amount</span>
+        </div>
+        
+        <div class="item item-divider">Type</div>
+        
+        <label class="item item-radio">
+        <input type="radio" name="cash">
+            <div class="item-content">Cash</div>
+            <i class="radio-icon ion-social-usd"></i>
+        </label>
+        
+        <label class="item item-radio">
+        <input type="radio" name="cc">
+            <div class="item-content">Credit Card</div>
+            <i class="radio-icon ion-card"></i>
+        </label>
+        <label class="item item-radio">
+        <input type="radio" name="Savings">
+            <div class="item-content">Savings</div>
+            <i class="radio-icon ion-ios-bookmarks-outline"></i>
+        </label>
+        <ion-list>
+  <ion-radio ng-model="choice" ng-value="'cash'">Cash</ion-radio>
+  <ion-radio ng-model="choice" ng-value="'credit'">Credit Card</ion-radio>
+  <ion-radio ng-model="choice" ng-value="'savings'">Savings</ion-radio>
+</ion-list>
+        
+        <!--toggle-->
+        <div class="item item-toggle">
+            <span class="input-label">Awesomeness</span>
+            <label class="toggle">
+            <input type="checkbox">
+                <div class="track"><div class="handle"></div></div>
+            </label>
+        </div>
+        
+        
+        <div class="item range range-balanced">
+            <i class="icon ion-sad-outline"></i>
+            <input type="range" name="volume" min="0" max="100" value="50">
+        </div>
+        
+        <label class="item item-input item-select">
+            <div class="input-label">Category</div>
+            <select>
+            <option>Food</option>
+            <option>Clothes</option>
+                <option>Telephone</option>
+                <option>Electricity</option>
+            </select>
+        </label>
+        
+        
+    </div>
+</ion-content>
+        

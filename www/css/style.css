@@ -1,0 +1,6 @@
+
+/* when highlited with star change bg color   */
+
+.star>.item-content {
+    background-color: #EEE8D6 !important;
+}

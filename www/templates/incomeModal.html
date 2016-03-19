@@ -1,0 +1,68 @@
+<ion-modal-view>
+
+<ion-header-bar>
+    
+    <h1 class="title"> Add Income </h1>
+    
+     <button class="button button-icon ion-minus-circled"
+                  ng-click="closeExpenseModal()"
+                  ></button>
+    
+    </ion-header-bar>
+
+
+<ion-content>
+    
+
+ <form ng-submit="saveExpense(expense)" name="expenseForm"   >
+<label class="item item-input">
+        <span class="input-label">Amount</span>
+        <input type="number" placeholder="Rs." name="e_amount" ng-model = 'expense.amount' required>
+        </label>
+
+ <label class="item item-input">
+        <span class="input-label">Date</span>
+        <input type="date" name="e_date"  ng-model ="expense.date" required>
+        </label>
+
+
+  
+ <label class="item item-input item-select">
+            <div class="input-label">Category</div>
+            <select ng-model="expense.cat">
+            <option>Salary</option>
+            <option>Interest</option>
+                <option>Rent</option>
+                <option>Land</option>
+            </select>
+</label>
+
+
+ <div class="item item-divider item-royal">Income in</div>
+
+ <ion-list>
+  <ion-radio ng-model="expense.choice" ng-value="'cash'">Cash</ion-radio>
+  <ion-radio ng-model="expense.choice" ng-value="'cheque'">Credit Card</ion-radio>
+  <ion-radio ng-model="expense.choice" ng-value="'savings'">Savings</ion-radio>
+</ion-list>
+        
+
+           <div class="item item-divider item-dark">Add Notes</div>
+<label class="item item-input" >
+        
+         <textarea placeholder="Notes"  rows="10" ng-model= "expense.note"></textarea>
+</label>
+
+<button class="button  button-positive" name="e_save"   type="submit">
+  Save
+</button>
+<button class="button button-clear button-positive" name="e_cancel" type="button">
+  Cancel
+</button>
+    </form>
+    
+    </ion-content>
+
+
+
+</ion-modal-view>
