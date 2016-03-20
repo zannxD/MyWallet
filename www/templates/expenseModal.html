@@ -1,4 +1,4 @@
-<ion-modal-view>
+<ion-modal-view >
 
 <ion-header-bar class="bar-light" >
     
@@ -11,20 +11,16 @@
     </ion-header-bar>
 
 
-<ion-content>
+<ion-content style="background-color:rgba(239, 239, 245,1)" >
     
-
+<br>
  <form ng-submit="saveExpense(expense)" novalidate="novalidate" name="expense"   >
 <label class="item item-input validated" ng-class="'has-errors'">
         <span class="input-label item-positive " style="padding:5%">Amount </span>
         <input type="number" placeholder="Rs." name="e_amount" ng-model = 'expense.amount' required>
         <i class="icon ion-alert-circled error col col-10"></i>
         </label>
-<label class="  "  >
-       
-         <button class="button  button-block" ng-click="openDatePicker()" type="button" ng-class="validDate ?'button-positive':'button-assertive'"> Date :   {{expenseDate}}  </button>
-         
-        </label>
+
 
 
   
@@ -37,8 +33,11 @@
             <option>Electricity</option>
             </select>
 </label>
-
-
+ 
+       
+         <button class="button  button-block" ng-click="openDatePicker()" type="button" ng-class="validDate ?'button-positive':'button-assertive'" style="marign:0cm"> Date :   {{expenseDate}}  </button>
+         
+    
  <div class="item item-divider item-positive ">Expenses Done In</div>
 
  <ion-list ng-init="expense.choice = 'cash'">
@@ -46,7 +45,7 @@
   <ion-radio ng-model="expense.choice" ng-value="'credit'">Credit Card</ion-radio>
   <ion-radio ng-model="expense.choice" ng-value="'savings'">Savings</ion-radio>
 </ion-list>
-        
+        <br>
 
            <div class="item item-divider  item-positive  ">Add Notes</div>
 <label class="item item-input" >
@@ -55,7 +54,7 @@
 </label>
  
 <br>
-<div class="button-bar">
+<div class="button-bar padding" >
  <button class="button    button-balanced" name="e_save"   type="submit">
  SAVE
 </button>
