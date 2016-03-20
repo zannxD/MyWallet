@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic','ngCordova','ngMessages'])
+angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker'])
 
 .run(function($ionicPlatform,$cordovaSQLite) {
   $ionicPlatform.ready(function() {
@@ -44,7 +44,7 @@ angular.module('starter', ['ionic','ngCordova','ngMessages'])
 
 
 
-.config(function($stateProvider, $urlRouterProvider){
+.config(function($stateProvider, $urlRouterProvider, ionicDatePickerProvider){
     $stateProvider
     .state('tabs', {
     url:'/tab', 
@@ -60,7 +60,7 @@ angular.module('starter', ['ionic','ngCordova','ngMessages'])
         views: {
             'list-tab' :{
                 templateUrl: 'templates/list.html',
-                controller: 'ListController'
+                controller: 'ListController as list'
             }
         
         
@@ -74,11 +74,33 @@ angular.module('starter', ['ionic','ngCordova','ngMessages'])
     
     
     $urlRouterProvider.otherwise('/tab/list');
-    
+  
+  
+    //config datepciker
+  
+  var datePickerObj = {
+      inputDate: new Date(),
+      setLabel: 'Set',
+      todayLabel: 'Today',
+      closeLabel: 'Close',
+      mondayFirst: false,
+      weeksList: ["S", "M", "T", "W", "T", "F", "S"],
+      monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
+      templateType: 'popup',
+      from: new Date(2012, 8, 1),
+      to: new Date(2018, 8, 1),
+      showTodayButton: true,
+      dateFormat: 'dd-MMMMyyyy',
+      closeOnSelect: false,
+      disableWeekdays: [6],
+    };
+    ionicDatePickerProvider.configDatePicker(datePickerObj);
     })
 
 
 
+
+ 
 
 //Directives for validation
 
@@ -142,7 +164,7 @@ angular.module('starter', ['ionic','ngCordova','ngMessages'])
 
 //controllers for functionality
 
-.controller('ListController',function($scope,$http,$cordovaSQLite,$ionicModal){
+.controller('ListController',function($scope,$http,$cordovaSQLite,$ionicModal,$cordovaDatePicker, ionicDatePicker){
 
 console.log("working");
  
@@ -207,6 +229,7 @@ $scope.toggleStar = function(item){
     
     };
     
+    //close expense modal
     $scope.closeExpenseModal = function(){
     
     
@@ -215,21 +238,23 @@ $scope.toggleStar = function(item){
     }
     
     
+    //save expense 
     $scope.saveExpense =  function(expense){
     
     
     console.log(expense);
         
-         
+        if(expense.$valid && $scope.validDate){
         
-        $cordovaSQLite.execute(db, "insert into main2 (amount,date,e_category,account,note,type) values(?,?,?,?,?,?)", [expense.amount,expense.date,expense.cat,expense.choice,expense.note,"EXPENSE"]).then(function(res) {
+        $cordovaSQLite.execute(db, "insert into main2 (amount,date,e_category,account,note,type) values(?,?,?,?,?,?)", [expense.amount, $scope.expenseDate,expense.cat,expense.choice,expense.note,"EXPENSE"]).then(function(res) {
       console.log("insertId: " + res.insertId);
+      $scope.reset();
                 
     $scope.getExpenseList();
     }, function (err) {
       console.error(err);
     });
-        
+        }
     
     };
     
@@ -265,8 +290,39 @@ $scope.toggleStar = function(item){
     
     $scope.getExpenseList
     
-    
+    $scope.reset = function(){
+
+ 
+
+      $scope.expenseDate ="Not Set";
+      $scope.closeExpenseModal ();
+      $scope.validDate = false;
+
+    };
     
    //$scope.abc();
+  
+  
+      var ipObj1 = {
+      callback: function (val) {  //Mandatory
+        console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+       
+       var d = new Date(val);
+     
+        $scope.expenseDate = d.getFullYear()+"-"+d.getMonth()+"-"+ d.getDate();
+       $scope.validDate = true;
+      },
+             //Optional
+      closeOnSelect: false,       //Optional
+      templateType: 'popup' ,
+       showTodayButton: false
+        //Optional
+    };
+
+    $scope.openDatePicker = function(){
+      ionicDatePicker.openDatePicker(ipObj1);
+    };
+  $scope.expenseDate ="Not Set";
+    
 
 });

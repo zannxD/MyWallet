@@ -1,19 +1,23 @@
  
-      <ion-header-bar class="bar-dark">
+      <ion-header-bar class="bar-positive">
           <button class="button button-icon icon ion-navicon"></button>
   
-        <h1 class="title">Expenses</h1>
+        <h1 class="title">EXPENDITURES</h1>
           <!--<button class="button button-icon ion-minus-circled"
                   ng-click="data.showDelete = !data.showDetete"
                   ></button> -->
           
-          <button class="button button-icon ion-plus-circled"
+          <button class="button  button-clear "
                   ng-click="addExpenseModal()"
-                  ></button>
+                  ><i class="ion-plus-circled" style="font-size:120%"></i></button>
           
       </ion-header-bar>
        
-          <div class="bar bar-subheader item-input-inset   bar-light">
+      <ion-content   style="background-color:rgba(239, 239, 245,0.3)" > 
+          
+      
+          
+          <div class=" item-input-inset   bar-light">
         <label class="item-input-wrapper">
            <i class="icon ion-search placeholder-icon"></i>
             <input type="search" ng-model="query" placeholder="Search">
@@ -22,11 +26,7 @@
            </label>
         
         
-        </div>
-      <ion-content  class="has-subheader" > 
-          
-      
-                        
+        </div>              
                     
                         
           
@@ -57,7 +57,7 @@
           
           </ion-list> 
           
-          
+       
           
           
           
