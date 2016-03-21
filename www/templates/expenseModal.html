@@ -6,7 +6,7 @@
  
    <button class="button  button-clear "
                 ng-click="closeExpenseModal()"
-                  ><i class="ion-minus-circled" style="font-size:120%"></i></button>
+                  ><i class="n-minus-circled" style="font-size:120%"></i></button>
     
     </ion-header-bar>
 
@@ -17,7 +17,7 @@
  <form ng-submit="saveExpense(expense)" novalidate="novalidate" name="expense"   >
 <label class="item item-input validated" ng-class="'has-errors'">
         <span class="input-label item-positive " style="padding:5%">Amount </span>
-        <input type="number" placeholder="Rs." name="e_amount" ng-model = 'expense.amount' required>
+        <input type="text" ng-pattern="/^[+]?\d+(\.\d+)?$/"  placeholder="Rs." name="e_amount" ng-model = 'expense.amount' required>
         <i class="icon ion-alert-circled error col col-10"></i>
         </label>
 
@@ -26,7 +26,7 @@
   
  <label class="item item-input item-select ">
             <div class="input-label">Category</div>
-            <select ng-model="expense.cat" required="true">
+            <select ng-model="expense.cat" >
             <option ng-selected="true"> Food</option>
             <option>Clothes</option>
             <option>Telephone</option>
@@ -50,7 +50,7 @@
            <div class="item item-divider  item-positive  ">Add Notes</div>
 <label class="item item-input" >
         
-         <textarea placeholder="Notes"  rows="3" ng-model= "expense.note" required></textarea>
+         <textarea placeholder="Notes"  rows="3" ng-model= "expense.note" ></textarea>
 </label>
  
 <br>

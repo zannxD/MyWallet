@@ -1,0 +1,70 @@
+  <ion-header-bar class="bar-positive">
+          <button class="button button-icon icon ion-navicon"></button>
+  
+        <h1 class="title">INCOME</h1>
+          <!--<button class="button button-icon ion-minus-circled"
+                  ng-click="data.showDelete = !data.showDetete"
+                  ></button> -->
+          
+          <button class="button  button-clear "
+                  ng-click="addIncomeModal()"
+                  ><i class="ion-plus-circled" style="font-size:120%"></i></button>
+          
+      </ion-header-bar>
+       
+      <ion-content   style="background-color:rgba(239, 239, 245,0.3)" > 
+          
+      
+          
+          <div class=" item-input-inset   bar-light">
+        <label class="item-input-wrapper">
+           <i class="icon ion-search placeholder-icon"></i>
+            <input type="search" ng-model="query" placeholder="Search">
+           
+           
+           </label>
+        
+        
+        </div>              
+                    
+                        
+          
+           
+         <ion-list show-delete="data.showDelete">
+             
+             <ion-item ng-repeat=' x in expList | filter : query  ' class="item-icon-right" ng-class="{'star': item.star}">
+                 <h2><font color="blue">Rs.{{x.amount}} Added!  <b>{{x.e_category}}</b></font></h2>
+             <h4>{{x.date}}</h4>
+                 <p><font color="gray">{{x.note | limitTo: 100}}</font></p>
+                 
+                 <button ng-click="incomeDel(x.id)" class="button button-small button-assertive "> Delete</button>
+            <button class="button button-clear icon ion-star button-assertive" ng-click="toggleStar(item)"
+           ng-show="item.star"></button>
+                 <ion-option-button class="button-dark" ng-click="toggleStar(item)">
+                 <i class="icon ion-star"></i>
+                 </ion-option-button>
+             
+                 
+                 
+                 
+             <ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(item)"></ion-delete-button>
+             
+             
+             </ion-item>
+          
+          
+          
+          </ion-list> 
+          
+       
+          
+          
+          
+      </ion-content>
+          
+          
+ 
+        
+        
+         
+    

@@ -55,8 +55,8 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker']
     
     })
     
-    .state('tabs.list', {
-        url: '/list',
+    .state('tabs.expenselist', {
+        url: '/expenselist',
         views: {
             'list-tab' :{
                 templateUrl: 'templates/list.html',
@@ -70,10 +70,40 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker']
     
     })
     
+     .state('tabs.incomelist', {
+        url: '/incomelist',
+        views: {
+            'income' :{
+                templateUrl: 'templates/incomelist.html',
+                controller: 'IncController as list'
+            }
+        
+        
+        
+        }
+    
+    
+    })
+    
+     .state('tabs.overall', {
+        url: '/overall',
+        views: {
+            'budget' :{
+                templateUrl: 'templates/overall.html',
+                controller: 'BudController as list'
+            }
+        
+        
+        
+        }
+    
+    
+    })
+
    
     
     
-    $urlRouterProvider.otherwise('/tab/list');
+    $urlRouterProvider.otherwise('/tab/expenselist');
   
   
     //config datepciker
@@ -244,16 +274,27 @@ $scope.toggleStar = function(item){
     
     console.log(expense);
         
-        if(expense.$valid && $scope.validDate){
+        var patt = new RegExp("^[+]?\d+(\.\d+)?$");
+        
+        
+        console.log(expense.amount);
+        
+       if(expense.$valid && $scope.validDate){
         
         $cordovaSQLite.execute(db, "insert into main2 (amount,date,e_category,account,note,type) values(?,?,?,?,?,?)", [expense.amount, $scope.expenseDate,expense.cat,expense.choice,expense.note,"EXPENSE"]).then(function(res) {
       console.log("insertId: " + res.insertId);
       $scope.reset();
                 
     $scope.getExpenseList();
+            
+            
     }, function (err) {
       console.error(err);
     });
+        }else{
+        
+        
+        console.log(expense.$valid);
         }
     
     };
@@ -325,4 +366,206 @@ $scope.toggleStar = function(item){
   $scope.expenseDate ="Not Set";
     
 
+})
+
+//IncController
+
+
+
+
+
+.controller('IncController',function($scope,$http,$cordovaSQLite,$ionicModal,$cordovaDatePicker, ionicDatePicker){
+
+console.log("working");
+ 
+
+   
+    
+    //define db variable
+    var db;
+    
+   if (window.cordova) {
+      db = $cordovaSQLite.openDB({ name: "my.db" }); //device
+    }
+    
+    else{
+      db = window.openDatabase("my.db", '1', 'my', 1024 * 1024 * 100); // browser
+    }
+
+    
+    //delete an income item
+  $scope.incomeDel = function(id) {
+    
+    $cordovaSQLite.execute(db, "delete from main2 where id = ?", [id]).then(function(res) {
+        
+            
+    $scope.getIncomeList();
+      
+    }, function (err) {
+      console.error(err);
+    });
+  };
+    
+    
+    //expense moDAL declaration
+       $ionicModal.fromTemplateUrl('templates/incomeModal.html',{
+        
+        scope : $scope,
+        animation : 'slide-in-up'    
+        
+        }).then(function(modal){
+        
+            $scope.incomeModal = modal;
+        
+        });
+    
+    
+    $scope.addIncomeModal = function(){
+    
+    $scope.incomeModal.show();
+     
+    
+    };
+    
+    //close expense modal
+    $scope.closeIncomeModal = function(){
+    
+    
+        
+    $scope.incomeModal.hide();
+    }
+    
+    
+    //save expense 
+    $scope.saveIncome =  function(income){
+    
+    
+    console.log(income);
+        
+        if(income.$valid && $scope.validDate){
+        
+        $cordovaSQLite.execute(db, "insert into main2 (amount,date,e_category,account,note,type) values(?,?,?,?,?,?)", [income.amount, $scope.expenseDate,income.cat,income.choice,income.note,"INCOME"]).then(function(res) {
+      console.log("insertId: " + res.insertId);
+      $scope.reset();
+                
+    $scope.getIncomeList();
+    }, function (err) {
+      console.error(err);
+    });
+        }
+    
+    };
+    
+    
+    $scope.expList = [];
+    $scope.getIncomeList = function(){
+           $cordovaSQLite.execute(db, "select * from main2  where type = 'INCOME' order by date desc", []).then(function(res) {
+            $scope.expList = [];
+      console.log(res);
+             
+               for(var i = 0; i < res.rows.length; i++){
+               console.log(res.rows[i].amount);
+               
+                $scope.expList.push({
+                
+                amount : res.rows[i].amount,
+                note : res.rows[i].note,    
+                date : res.rows[i].date,  
+               id : res.rows[i].id 
+                });
+               } 
+             
+               
+    }, function (err) {
+      console.error(err);
+    });
+        
+        
+        
+        
+    };
+     
+    
+    $scope.getIncomeList
+    
+    $scope.reset = function(){
+
+ 
+
+      $scope.incomeDate ="Not Set";
+      $scope.closeIncomeModal ();
+      $scope.validDate = false;
+
+    };
+    
+   //$scope.abc();
+  
+  
+      var ipObj1 = {
+      callback: function (val) {  //Mandatory
+        console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+       
+       var d = new Date(val);
+     
+        $scope.incomeDate = d.getFullYear()+"-"+d.getMonth()+"-"+ d.getDate();
+       $scope.validDate = true;
+      },
+             //Optional
+      closeOnSelect: false,       //Optional
+      templateType: 'popup' ,
+       showTodayButton: false
+        //Optional
+    };
+
+    $scope.openDatePicker = function(){
+      ionicDatePicker.openDatePicker(ipObj1);
+    };
+  $scope.expenseDate ="Not Set";
+    
+
+})
+
+//BudController
+
+
+
+
+.controller('BudController',function($scope,$http,$cordovaSQLite,$ionicModal,$cordovaDatePicker, ionicDatePicker){
+
+console.log("working");
+ 
+
+   
+    
+    //define db variable
+    var db;
+    
+   if (window.cordova) {
+      db = $cordovaSQLite.openDB({ name: "my.db" }); //device
+    }
+    
+    else{
+      db = window.openDatabase("my.db", '1', 'my', 1024 * 1024 * 100); // browser
+    }
+
+    
+
+  //  select (select SUM(amount) as income from main2  where type = 'INCOME') as income,
+  //  (select SUM(amount) as income from main2  where type = 'EXPENSE') as expense,
+  //   SUM(amount) as total from main2
+    
+    
+    var date = new Date();
+    
+    var day = date.getDate();
+    var month = date.getMonth();
+    var year = date.getFullYear();
+
+  //  "select (select SUM(amount) as income from main2  where type = 'INCOME' AND date like '"+year+"-"+month+"%') as income,
+  //  (select SUM(amount) as income from main2  where type = 'EXPENSE' AND date like '"+year+"-"+month+"%') as expense,
+  //   SUM(amount) as total from main2
+  // Where date like '"+year+"-"+month+"%'"
+
 });
+
+

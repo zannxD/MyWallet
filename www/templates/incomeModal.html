@@ -1,3 +1,4 @@
+<!--
 <ion-modal-view>
 
 <ion-header-bar>
@@ -5,7 +6,7 @@
     <h1 class="title"> Add Income </h1>
     
      <button class="button button-icon ion-minus-circled"
-                  ng-click="closeExpenseModal()"
+                  ng-click="closeIncomeModal()"
                   ></button>
     
     </ion-header-bar>
@@ -14,15 +15,15 @@
 <ion-content>
     
 
- <form ng-submit="saveExpense(expense)" name="expenseForm"   >
+ <form ng-submit="saveIncome(income)" name="incomeForm"   >
 <label class="item item-input">
         <span class="input-label">Amount</span>
-        <input type="number" placeholder="Rs." name="e_amount" ng-model = 'expense.amount' required>
+        <input type="number" placeholder="Rs." name="e_amount" ng-model = 'income.amount' required>
         </label>
 
  <label class="item item-input">
         <span class="input-label">Date</span>
-        <input type="date" name="e_date"  ng-model ="expense.date" required>
+        <input type="date" name="e_date"  ng-model ="income.date" required>
         </label>
 
 
@@ -61,6 +62,83 @@
 </button>
     </form>
     
+    </ion-content>
+
+
+
+</ion-modal-view> -->
+
+
+
+<ion-modal-view >
+
+<ion-header-bar class="bar-light" >
+    
+    <h1 class="title">Add Income </h1>
+ 
+   <button class="button  button-clear "
+                ng-click="closeIncomeModal()"
+                  ><i class="ion-minus-circled" style="font-size:120%"></i></button>
+    
+    </ion-header-bar>
+
+
+<ion-content style="background-color:rgba(239, 239, 245,1)" >
+    
+<br>
+ <form ng-submit="saveIncome(income)" novalidate="novalidate" name="income"   >
+<label class="item item-input validated" ng-class="'has-errors'">
+        <span class="input-label item-positive " style="padding:5%">Amount </span>
+        <input type="text" placeholder="Rs." ng-pattern="/^[+]?\d+(\.\d+)?$/" name="e_amount" ng-model = 'income.amount' required>
+        <i class="icon ion-alert-circled error col col-10"></i>
+        </label>
+
+
+
+  
+ <label class="item item-input item-select ">
+            <div class="input-label">Category</div>
+            <select ng-model="income.cat">
+            <option ng-selected="true"> Salary</option>
+            <option>Interest</option>
+            <option>Land</option>
+            <option></option>
+            </select>
+</label>
+ 
+       
+         <button class="button  button-block" ng-click="openDatePicker()" type="button" ng-class="validDate ?'button-positive':'button-assertive'" style="marign:0cm"> Date :   {{expenseDate}}  </button>
+         
+    
+ <div class="item item-divider item-positive ">Income From</div>
+
+ <ion-list ng-init="income.choice = 'cash'">
+  <ion-radio ng-model="income.choice" ng-checked="true" ng-value="'cash'">Cash</ion-radio>
+  <ion-radio ng-model="income.choice" ng-value="'credit'">Cheque</ion-radio>
+  <ion-radio ng-model="income.choice" ng-value="'savings'">Savings</ion-radio>
+</ion-list>
+        <br>
+
+           <div class="item item-divider  item-positive  ">Add Notes</div>
+<label class="item item-input" >
+        
+         <textarea placeholder="Notes"  rows="3" ng-model= "expense.note" ></textarea>
+</label>
+ 
+<br>
+<div class="button-bar padding" >
+ <button class="button    button-balanced" name="e_save"   type="submit">
+ SAVE
+</button>
+ <button class="button   button-dark" name="e_cancel" ng-click="reset()" type="reset">
+  CANCEL
+</button>
+ 
+</div>
+    </form>
+    
+
+   
     </ion-content>
 
 
