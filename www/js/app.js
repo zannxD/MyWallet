@@ -46,16 +46,35 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker']
 
 .config(function($stateProvider, $urlRouterProvider, ionicDatePickerProvider){
     $stateProvider
-    .state('tabs', {
-    url:'/tab', 
+    
+        .state('sidemenu', {
+        url:'/app',
         abstract: true,
-        templateUrl: 'templates/tabs.html'
+         templateUrl: 'templates/menu.html'
+     
+    
+    })
+    
+    
+    
+    .state('sidemenu.tabs', {
+    url:'/tab', 
+        
+           views:{
+            'menuContent':{
+                   abstract: true,
+        templateUrl: 'templates/tabs.html',
+                controller : 'tabsController'
+       
+            }
+        }
+     
         
     
     
     })
     
-    .state('tabs.expenselist', {
+    .state('sidemenu.tabs.expenselist', {
         url: '/expenselist',
         views: {
             'list-tab' :{
@@ -70,7 +89,7 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker']
     
     })
     
-     .state('tabs.incomelist', {
+     .state('sidemenu.tabs.incomelist', {
         url: '/incomelist',
         views: {
             'income' :{
@@ -85,7 +104,7 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker']
     
     })
     
-     .state('tabs.overall', {
+     .state('sidemenu.tabs.overall', {
         url: '/overall',
         views: {
             'budget' :{
@@ -100,10 +119,25 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker']
     
     })
 
-   
+       /* .state('sidemenu.categories', {
+        url: '/overall',
+        views: {
+            'budget' :{
+                templateUrl: 'templates/overall.html',
+                controller: 'BudController as list'
+            }
+        
+        
+        
+        }
     
     
-    $urlRouterProvider.otherwise('/tab/expenselist');
+    })
+
+   */
+    
+    
+    $urlRouterProvider.otherwise('app/tab/expenselist');
   
   
     //config datepciker
@@ -584,6 +618,11 @@ console.log("working");
   //   SUM(amount) as total from main2
   // Where date like '"+year+"-"+month+"%'"
 
+}).controller('tabsController',function ($scope, $ionicSideMenuDelegate) {
+    
+  $scope.toggleLeftSideMenu = function() {
+    $ionicSideMenuDelegate.toggleLeft();
+  };
 });
 
 
