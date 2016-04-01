@@ -192,7 +192,7 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker']
   }])
 
 
-//controllers for functionality
+//controllers for functionality- ListController
 
 .controller('ListController',function($scope,$http,$cordovaSQLite,$ionicModal,$cordovaDatePicker, ionicDatePicker){
 
@@ -312,8 +312,11 @@ $scope.toggleStar = function(item){
                 $scope.expList.push({
                 
                 amount : res.rows[i].amount,
-                note : res.rows[i].note,    
-                date : res.rows[i].date,  
+                note : res.rows[i].note,
+                    account : res.rows[i].account,  
+                date : res.rows[i].date,
+                e_category : res.rows[i].e_category,
+                date : res.rows[i].date,
                id : res.rows[i].id 
                 });
                } 
@@ -407,7 +410,7 @@ console.log("working");
   };
     
     
-    //expense moDAL declaration
+    //income moDAL declaration
        $ionicModal.fromTemplateUrl('templates/incomeModal.html',{
         
         scope : $scope,
@@ -427,7 +430,7 @@ console.log("working");
     
     };
     
-    //close expense modal
+    //close income modal
     $scope.closeIncomeModal = function(){
     
     
@@ -444,7 +447,7 @@ console.log("working");
         
         if(income.$valid && $scope.validDate){
         
-        $cordovaSQLite.execute(db, "insert into main2 (amount,date,e_category,account,note,type) values(?,?,?,?,?,?)", [income.amount, $scope.expenseDate,income.cat,income.choice,income.note,"INCOME"]).then(function(res) {
+        $cordovaSQLite.execute(db, "insert into main2 (amount,date,e_category,account,note,type) values(?,?,?,?,?,?)", [income.amount, $scope.incomeDate,income.cat,income.choice,income.note,"INCOME"]).then(function(res) {
       console.log("insertId: " + res.insertId);
       $scope.reset();
                 
@@ -469,7 +472,9 @@ console.log("working");
                 $scope.expList.push({
                 
                 amount : res.rows[i].amount,
-                note : res.rows[i].note,    
+                note : res.rows[i].note,  
+                e_category : res.rows[i].e_category,
+                account : res.rows[i].account,
                 date : res.rows[i].date,  
                id : res.rows[i].id 
                 });
@@ -520,7 +525,7 @@ console.log("working");
     $scope.openDatePicker = function(){
       ionicDatePicker.openDatePicker(ipObj1);
     };
-  $scope.expenseDate ="Not Set";
+  $scope.incomeDate ="Not Set";
     
 
 })
@@ -548,6 +553,19 @@ console.log("working");
       db = window.openDatabase("my.db", '1', 'my', 1024 * 1024 * 100); // browser
     }
 
+    
+    
+     $scope.budget = function(id) {
+    
+    $cordovaSQLite.execute(db, "select (select SUM(amount) as income from main2  where type = 'INCOME') as income,(select SUM(amount) as income from main2  where type = 'EXPENSE') as expense SUM(amount) as total from main2", [id]).then(function(res) {
+        
+            
+    $scope.getIncomeList();
+      
+    }, function (err) {
+      console.error(err);
+    });
+  };
     
 
   //  select (select SUM(amount) as income from main2  where type = 'INCOME') as income,

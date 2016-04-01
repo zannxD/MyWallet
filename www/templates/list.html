@@ -34,8 +34,9 @@
          <ion-list show-delete="data.showDelete">
              
              <ion-item ng-repeat=' x in expList | filter : query  ' class="item-icon-right" ng-class="{'star': item.star}">
-                 <h2><font color="blue"> Spent Rs.{{x.amount}}!  <b>{{x.e_category}}</b></font></h2>
-             <h4>{{x.date}}</h4>
+                 <h2><font color="blue"> Spent <b>Rs.{{x.amount}}</b> on <b><font color="#07FA9E">{{x.e_category}}</font></b></font></h2>
+                 <font color="#FA8072"> <h4> {{x.account}}</h4></font>
+             <h4>Date {{x.date}}</h4>
                  <p><font color="gray">{{x.note | limitTo: 100}}</font></p>
                  
                  <button ng-click="expenseDel(x.id)" class="button button-small button-assertive "> Delete</button>

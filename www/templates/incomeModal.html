@@ -89,7 +89,7 @@
  <form ng-submit="saveIncome(income)" novalidate="novalidate" name="income"   >
 <label class="item item-input validated" ng-class="'has-errors'">
         <span class="input-label item-positive " style="padding:5%">Amount </span>
-        <input type="text" placeholder="Rs." ng-pattern="/^[+]?\d+(\.\d+)?$/" name="e_amount" ng-model = 'income.amount' required>
+        <input type="number" placeholder="Rs." ng-pattern="/^[+]?\d+(\.\d+)?$/" name="e_amount" ng-model = 'income.amount' required>
         <i class="icon ion-alert-circled error col col-10"></i>
         </label>
 
@@ -99,7 +99,8 @@
  <label class="item item-input item-select ">
             <div class="input-label">Category</div>
             <select ng-model="income.cat">
-            <option ng-selected="true"> Salary</option>
+            <option ng-selected="true"> </option>
+            <option>Salary</option>
             <option>Interest</option>
             <option>Land</option>
             <option></option>
@@ -107,14 +108,14 @@
 </label>
  
        
-         <button class="button  button-block" ng-click="openDatePicker()" type="button" ng-class="validDate ?'button-positive':'button-assertive'" style="marign:0cm"> Date :   {{expenseDate}}  </button>
+         <button class="button  button-block" ng-click="openDatePicker()" type="button" ng-class="validDate ?'button-positive':'button-assertive'" style="marign:0cm"> Date :   {{incomeDate}}  </button>
          
     
  <div class="item item-divider item-positive ">Income From</div>
 
  <ion-list ng-init="income.choice = 'cash'">
   <ion-radio ng-model="income.choice" ng-checked="true" ng-value="'cash'">Cash</ion-radio>
-  <ion-radio ng-model="income.choice" ng-value="'credit'">Cheque</ion-radio>
+  <!--<ion-radio ng-model="income.choice" ng-value="'credit'">Cheque</ion-radio> -->
   <ion-radio ng-model="income.choice" ng-value="'savings'">Savings</ion-radio>
 </ion-list>
         <br>
@@ -122,7 +123,7 @@
            <div class="item item-divider  item-positive  ">Add Notes</div>
 <label class="item item-input" >
         
-         <textarea placeholder="Notes"  rows="3" ng-model= "expense.note" ></textarea>
+    <textarea placeholder="Notes"  rows="3" ng-model= "income.note" ></textarea>
 </label>
  
 <br>

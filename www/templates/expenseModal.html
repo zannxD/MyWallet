@@ -17,7 +17,7 @@
  <form ng-submit="saveExpense(expense)" novalidate="novalidate" name="expense"   >
 <label class="item item-input validated" ng-class="'has-errors'">
         <span class="input-label item-positive " style="padding:5%">Amount </span>
-        <input type="text" ng-pattern="/^[+]?\d+(\.\d+)?$/"  placeholder="Rs." name="e_amount" ng-model = 'expense.amount' required>
+        <input type="number" ng-pattern="/^[+]?\d+(\.\d+)?$/"  placeholder="Rs." name="e_amount" ng-model = 'expense.amount' required>
         <i class="icon ion-alert-circled error col col-10"></i>
         </label>
 
@@ -26,11 +26,12 @@
   
  <label class="item item-input item-select ">
             <div class="input-label">Category</div>
-            <select ng-model="expense.cat" >
-            <option ng-selected="true"> Food</option>
+            <select ng-model="expense.cat"  >
+            <option ng-selected="true" > </option>
             <option>Clothes</option>
             <option>Telephone</option>
             <option>Electricity</option>
+                <option>Food</option>
             </select>
 </label>
  

@@ -33,9 +33,10 @@
          <ion-list show-delete="data.showDelete">
              
              <ion-item ng-repeat=' x in expList | filter : query  ' class="item-icon-right" ng-class="{'star': item.star}">
-                 <h2><font color="blue">Rs.{{x.amount}} Added!  <b>{{x.e_category}}</b></font></h2>
-             <h4>{{x.date}}</h4>
-                 <p><font color="gray">{{x.note | limitTo: 100}}</font></p>
+                 <h2><font color="blue"><b>Rs.{{x.amount}}</b> added from <b><font color="#44E311">{{x.e_category}}</font></b></font></h2>
+             <h4><font color="###73A9D1  ">Date {{x.date}}</font></h4>
+             <h4>{{x.account}}</h4>
+                 <p><font color="#E62DA3  ">{{x.note | limitTo: 100}}</font></p>
                  
                  <button ng-click="incomeDel(x.id)" class="button button-small button-assertive "> Delete</button>
             <button class="button button-clear icon ion-star button-assertive" ng-click="toggleStar(item)"
