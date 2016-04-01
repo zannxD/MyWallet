@@ -1,75 +1,71 @@
-   
-      <ion-header-bar class="bar-positive">
-    
-         <button ng-click="toggleLeftSideMenu()" class="button button-icon icon ion-navicon"></button>
-  
- 
-   
-        <h1 class="title">EXPENDITURES</h1>
-          <!--<button class="button button-icon ion-minus-circled"
-                  ng-click="data.showDelete = !data.showDetete"
-                  ></button> -->
-          
-          <button class="button  button-clear "
-                  ng-click="addExpenseModal()"
-                  ><i class="ion-plus-circled" style="font-size:120%"></i></button>
-          
-      </ion-header-bar>
-    
-      <ion-content   style="background-color:rgba(239, 239, 245,0.3)" > 
-          
-      
-          
-          <div class=" item-input-inset   bar-light">
+
+<ion-header-bar class="bar-positive">
+
+    <button ng-click="toggleLeftSideMenu()" class="button button-icon icon ion-navicon"></button>
+
+
+
+    <h1 class="title">EXPENDITURES</h1>
+    <!--<button class="button button-icon ion-minus-circled"
+ng-click="data.showDelete = !data.showDetete"
+></button> -->
+
+    <button class="button  button-clear "
+            ng-click="addExpenseModal()"
+            ><i class="ion-plus-circled" style="font-size:120%"></i></button>
+
+</ion-header-bar>
+
+<ion-content   style="background-color:rgba(239, 239, 245,0.3)" > 
+
+
+
+    <div class=" item-input-inset   bar-light">
         <label class="item-input-wrapper">
-           <i class="icon ion-search placeholder-icon"></i>
+            <i class="icon ion-search placeholder-icon"></i>
             <input type="search" ng-model="query" placeholder="Search">
-           
-           
-           </label>
-        
-        
-        </div>              
-                    
-                        
-          
-           
-         <ion-list show-delete="data.showDelete">
-             
-             <ion-item ng-repeat=' x in expList | filter : query  ' class="item-icon-right" ng-class="{'star': item.star}">
-                 <h2><font color="blue"> Spent <b>Rs.{{x.amount}}</b> on <b><font color="#07FA9E">{{x.e_category}}</font></b></font></h2>
-                 <font color="#FA8072"> <h4> {{x.account}}</h4></font>
-             <h4>Date {{x.date}}</h4>
-                 <p><font color="gray">{{x.note | limitTo: 100}}</font></p>
-                 
-                 <button ng-click="expenseDel(x.id)" class="button button-small button-assertive "> Delete</button>
-            <button class="button button-clear icon ion-star button-assertive" ng-click="toggleStar(item)"
-           ng-show="item.star"></button>
-                 <ion-option-button class="button-dark" ng-click="toggleStar(item)">
-                 <i class="icon ion-star"></i>
-                 </ion-option-button>
-             
-                 
-                 
-                 
-             <ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(item)"></ion-delete-button>
-             
-             
-             </ion-item>
-          
-          
-          
-          </ion-list> 
-          
-       
-          
-          
-          
-      </ion-content>
-          
-          
- 
-        
-        
-         
-    
+
+
+        </label>
+
+
+    </div>              
+
+
+
+
+    <ion-list  >
+
+        <ion-item ng-repeat=' x in expList | filter : query  ' class="" >
+
+            <div class="row">
+                <div class="col-80">
+
+                    <h4><font color="#4a87ee"> {{x.e_category | uppercase}} </font>&nbsp;<font color="gray">  {{x.date}} </font></h4> 
+
+                    <h2> <font color="#444"> {{x.amount | currency:"Rs."}}  </font><font color="gray" size="2%">- {{x.account | uppercase}} </font> </h2>
+
+
+                    <font color="gray">{{x.note | limitTo: 100}}</font> 
+                </div>
+                <div class="col-20">
+                    <button ng-click="expenseDel(x.id)" class="button button-block button-outline button-small button-assertive "> Delete</button>
+                </div>
+            </div>
+        </ion-item>
+
+
+
+    </ion-list> 
+
+
+
+
+
+</ion-content>
+
+
+
+
+
+

@@ -1,19 +1,19 @@
 <ion-modal-view >
 
-<ion-header-bar class="bar-light" >
+<ion-header-bar class="bar-light" style="border-bottom:1px solid #fff;">
     
-    <h1 class="title">Add Expense </h1>
+    <h1 class="title">ADD EXPENSE </h1>
  
    <button class="button  button-clear "
                 ng-click="closeExpenseModal()"
-                  ><i class="n-minus-circled" style="font-size:120%"></i></button>
+                  ><i class="ion-minus-circled" style="font-size:120%"></i></button>
     
     </ion-header-bar>
+ 
 
 
-<ion-content style="background-color:rgba(239, 239, 245,1)" >
-    
-<br>
+<ion-content   style="background-color:rgba(239, 239, 245,1)" >
+ 
  <form ng-submit="saveExpense(expense)" novalidate="novalidate" name="expense"   >
 <label class="item item-input validated" ng-class="'has-errors'">
         <span class="input-label item-positive " style="padding:5%">Amount </span>

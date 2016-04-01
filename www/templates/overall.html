@@ -1,58 +1,82 @@
-  
- 
-  <ion-header-bar class="bar-positive">
-            <button ng-click="toggleLeftSideMenu()" class="button button-icon icon ion-navicon"></button>
- 
-  
-        <h1 class="title">BUDGET</h1>
-         
-          
-      </ion-header-bar>
-       
-      <ion-content   style="background-color:rgba(239, 239, 245,0.3)" > 
-          
-      
-          
-           
-                        
-          
-           <ion-list>
-        
-              
-<label class="item item-input " >
-        <span class="input-label item-positive " style="padding:10%;">TOTAL INCOME </span>
-     <div class="col-lg-9">   
-         <b>Rs.{{x.t_income}}</b></div>
-        </label>
-     
-     <label class="item item-input " >
-        <span class="input-label item-positive " style="padding:10%">TOTAL EXPENDITURE </span>
-        
-    <b>Rs.{{x.t_income}}</b>
-        </label>
+
+
+<ion-header-bar class="bar-positive">
+    <button ng-click="toggleLeftSideMenu()" class="button button-icon icon ion-navicon"></button>
+
+
+    <h1 class="title">OVERALL</h1>
+
+
+</ion-header-bar>
+
+<ion-content   style="background-color:rgba(239, 239, 245,0.3)" > 
+
+    <br>
+    <canvas id="doughnut" class="chart chart-doughnut"
+            chart-data="data" chart-labels="labels" chart-legend="true" chart-colours = "['#46BFBD','#DCDCDC']">
+    </canvas> 
 
 
 
-  
-
-       
-         
-    
- 
-           <div class="item item-divider  item-clear  "></div>
-     <label class="item item-input " >
-        <span class="input-label item-positive " style="padding:8%">BUDGET REMAINING </span>
-        
-    <b>Rs.{{x.t_income}}</b>
-        </label>
 
 
-     
-    
-       
-          </ion-list> 
-      </ion-content>
-   
-    
 
- 
+    <ion-list  >
+
+        <ion-item>
+
+            <div class="row">
+                <div class="col-50">
+
+                    <h3><font color="#4a87ee">   </font>&nbsp;<font color="gray">  TOTAL INCOME</font></h3> 
+
+
+
+                </div>
+                <div class="col-50">
+                    <h2 class="pull-right padding-right" style="">  <font color="grey"> {{totIncome | currency :"Rs."}}  </font> </h2>
+                </div>
+            </div>
+        </ion-item>
+
+        <ion-item>
+
+            <div class="row">
+                <div class="col-50">
+
+                    <h3><font color="#4a87ee">   </font>&nbsp;<font color="gray">  TOTAL EXPENDITURE</font></h3> 
+
+
+
+                </div>
+                <div class="col-50">
+                    <h2 class="pull-right padding-right" style="">  <font color="grey"> {{totExpense | currency :"Rs."}}  </font> </h2>
+                </div>
+            </div>
+        </ion-item>
+
+
+        <ion-item>
+
+            <div class="row">
+                <div class="col-50">
+
+                    <h3><font color="#4a87ee" style="">   </font>&nbsp;<font color="gray">  BUDGET REMAINING</font></h3> 
+
+
+
+                </div>
+                <div class="col-50">
+                    <h2 class="pull-right padding-right">  <font color="grey"> {{total | currency :"Rs."}}  </font> </h2>
+                </div>
+            </div>
+        </ion-item>
+
+
+
+    </ion-list> 
+
+</ion-content>
+
+
+
