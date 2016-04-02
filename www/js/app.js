@@ -320,9 +320,9 @@ angular.module('starter', ['ionic','ngCordova' , 'ionic-datepicker','chart.js'])
     var db;
 
     if (window.cordova) {
-         
-        db = $cordovaSQLite.openDB("my.db",'1'); //device
-        
+       // alert("abc");
+        $cordovaSQLite.openDB("my.db"); //device
+       // alert("abc");
               
     }else{
       
@@ -786,6 +786,7 @@ angular.module('starter', ['ionic','ngCordova' , 'ionic-datepicker','chart.js'])
 
     };
 
+    
 
 
     //define db variable
@@ -956,6 +957,18 @@ angular.module('starter', ['ionic','ngCordova' , 'ionic-datepicker','chart.js'])
 
     };
 
+    
+    $scope.incomeDel = function(id) {
+
+        $cordovaSQLite.execute(db, "delete from main2 where id = ?", [id]).then(function(res) {
+
+
+            $scope.getBugetList();
+
+        }, function (err) {
+            console.error(err);
+        });
+    };
 
 });
 
