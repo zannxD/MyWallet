@@ -27,11 +27,7 @@
  <label class="item item-input item-select ">
             <div class="input-label">Category</div>
             <select ng-model="expense.cat"  >
-            <option ng-selected="true" > </option>
-            <option>Clothes</option>
-            <option>Telephone</option>
-            <option>Electricity</option>
-                <option>Food</option>
+            <option ng-repeat="x in categories" ng-value="x.name" ng-if="x.type=='EXPENSE'"> {{x.name}}</option>
             </select>
 </label>
  

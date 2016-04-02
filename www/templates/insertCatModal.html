@@ -1,0 +1,61 @@
+ 
+
+<ion-modal-view >
+
+<ion-header-bar class="bar-light" >
+    
+    <h1 class="title">Add Category </h1>
+ 
+   <button class="button  button-clear "
+                ng-click="closeIncomeModal()"
+                  ><i class="ion-minus-circled" style="font-size:120%"></i></button>
+    
+    </ion-header-bar>
+
+
+<ion-content style="background-color:rgba(239, 239, 245,1)" >
+    
+ 
+ <form ng-submit="saveCat(cat)" novalidate="novalidate" name="cat"   >
+<label class="item item-input validated" ng-class="'has-errors'">
+        <span class="input-label item-positive " style="padding:5%">Name </span>
+        <input type="text" ng-required="true" ng-model="cat.name">
+        <i class="icon ion-alert-circled error col col-10"></i>
+        </label>
+
+
+
+  
+ <label class="item item-input item-select ">
+            <div class="input-label">Type</div>
+            <select ng-model="cat.type">
+            <option ng-selected="true"> </option>
+            <option>INCOME</option>
+            <option>EXPENSE</option>
+            <option>BOTH</option>
+         
+            </select>
+</label>
+ 
+       
+    
+ 
+<br>
+<div class="button-bar padding" >
+ <button class="button    button-balanced" name="e_save"   type="submit">
+ SAVE
+</button>
+ <button class="button   button-dark" name="e_cancel" ng-click="reset()" type="reset">
+  CANCEL
+</button>
+ 
+</div>
+    </form>
+    
+
+   
+    </ion-content>
+
+
+
+</ion-modal-view>

@@ -1,0 +1,100 @@
+ 
+
+<ion-modal-view >
+
+<ion-header-bar class="bar-light" >
+    
+    <h1 class="title">{{ catName | uppercase}} </h1>
+ 
+   <button class="button  button-clear "
+                ng-click="closeInfo()"
+                  ><i class="ion-minus-circled" style="font-size:120%"></i></button>
+    
+    </ion-header-bar>
+
+
+<ion-content style="background-color:rgba(239, 239, 245,1)" >
+    
+ <div class=" item-input-inset   bar-light">
+        <label class="item-input-wrapper">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="search" ng-model="query1" placeholder="Search">
+
+
+        </label>
+
+
+    </div>     
+  
+          <ion-list  >
+
+        <ion-item>
+
+            <div class="row">
+                <div class="col-50">
+
+                    <h3><font color="#4a87ee">   </font>&nbsp;<font color="gray">  TOTAL INCOME</font></h3> 
+
+
+
+                </div>
+                <div class="col-50">
+                    <h2 class="pull-right padding-right" style="">  <font color="grey"> {{income | currency :"Rs."}}  </font> </h2>
+                </div>
+            </div>
+        </ion-item>
+
+        <ion-item>
+
+            <div class="row">
+                <div class="col-50">
+
+                    <h3><font color="#4a87ee">   </font>&nbsp;<font color="gray">  TOTAL EXPENDITURE</font></h3> 
+
+
+
+                </div>
+                <div class="col-50">
+                    <h2 class="pull-right padding-right" style="">  <font color="grey"> {{expense | currency :"Rs."}}  </font> </h2>
+                </div>
+            </div>
+        </ion-item>
+
+
+        
+
+
+
+    </ion-list> 
+        
+        <ion-list  >
+
+
+
+
+
+                <ion-item  ng-repeat=' x in bList | filter : query1  ' class="" >
+
+                        <div class="row">
+                                <div class="col-80">
+
+                                        <h4><font color="#4a87ee"> {{x.e_category | uppercase}} </font>&nbsp;<font color="gray">  {{x.date}} </font></h4>
+
+                                        <h2> <font color="#444"> {{x.amount | currency:"Rs."}}  </font>  </h2>
+
+
+                                        <h6><font color="gray">{{x.account | uppercase}} {{x.type | uppercase}}</font> </h6>
+                                </div>
+                                <div class="col-20">
+                                        <button ng-click="incomeDel(x.id)" class="button button-block button-outline button-small button-assertive "> Delete</button>
+                                </div>
+                        </div>
+                </ion-item>
+
+        </ion-list> 
+   
+    </ion-content>
+
+
+
+</ion-modal-view>

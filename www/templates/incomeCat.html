@@ -28,7 +28,10 @@
                 <ion-list  >
 
 
-     <ion-item  ng-repeat=' x in categories | filter : query  ' href=""  ng-click="openInfo(x.name)" class="" ng-if="x.type=='EXPENSE' || x.type == 'BOTH' ">
+
+
+
+                        <ion-item  ng-repeat=' x in categories | filter : query  ' class="" ng-if="x.type=='INCOME' || x.type == 'BOTH' " >
 
                                 <div class="row" style="padding:0cm">
                                         <div class="col-80"  style="padding:0cm">
@@ -39,8 +42,8 @@
 
                                                
                                         </div>
-                                        <div class="col-10"  style="padding:0cm">
-                                                 
+                                        <div class="col-20"  style="padding:0cm">
+                                                <button ng-click="expenseDel(x.id)" class="button button-block button-outline button-small button-assertive "> Delete</button>
                                         </div>
                                 </div>
                         </ion-item>

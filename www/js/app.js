@@ -3,9 +3,9 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker','chart.js'])
+angular.module('starter', ['ionic','ngCordova' , 'ionic-datepicker','chart.js'])
 
-    .run(function($ionicPlatform,$cordovaSQLite,$cordovaStatusbar) {
+    .run(function($ionicPlatform,$cordovaSQLite,$cordovaStatusbar,$state) {
     $ionicPlatform.ready(function() {
         if(window.cordova && window.cordova.plugins.Keyboard) {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -39,8 +39,19 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker',
         });
 
 
+        $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS categories (id  INTEGER PRIMARY KEY ,name text, type text, icon text)", [])
+            .then(function(res) {
+            console.log("created ");
+        }, function (err) {
+            console.error(err);
+        });
+
+
     });
     
+    $state.go('sidemenu.tabs.expenselist');
+    
+
     //uncomment when building  a mobile app
     //$cordovaStatusbar.styleHex('#4a87ee');
 })
@@ -61,11 +72,12 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker',
 
 
         .state('sidemenu.tabs', {
-        url:'/tab', 
+        url:'/tab',
+        abstract: true,
 
         views:{
             'menuContent':{
-                abstract: true,
+
                 templateUrl: 'templates/tabs.html',
                 controller : 'tabsController'
 
@@ -121,19 +133,52 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker',
 
 
     })
-    
-    
-      .state('sidemenu.category', {
-        url: '/category',
+
+
+
+        .state('sidemenu.category', {
+        url:'/cattab',
+        abstract:true,
+        views:{
+            'menuContent':{
+
+                templateUrl: 'templates/catTabs.html',
+                controller : 'tabsController'
+
+            }
+        } 
+
+
+
+    })
+
+
+        .state('sidemenu.category.expense', {
+        url: '/expense',
         views: {
-            'menuContent' :{
+            'expense' :{
                 templateUrl: 'templates/categories.html',
-                controller: 'CatController as list'
+                controller: 'CatController'
             }
 
 
 
         }
+
+    })
+
+        .state('sidemenu.category.income', {
+        url: '/income',
+        views: {
+            'income' :{
+                templateUrl: 'templates/incomeCat.html',
+                controller: 'CatController'
+            }
+
+
+
+        }
+
 
 
     })
@@ -249,6 +294,7 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker',
 
     .controller('ListController',function($scope,$http,$cordovaSQLite,$ionicModal,$cordovaDatePicker, ionicDatePicker){
 
+  
     console.log("working");
 
 
@@ -274,10 +320,15 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker',
     var db;
 
     if (window.cordova) {
-        db = $cordovaSQLite.openDB({ name: "my.db" }); //device
+         
+        db = $cordovaSQLite.openDB("my.db",'1'); //device
+        
+              
     }else{
+      
         db = window.openDatabase("my.db", '1', 'my', 1024 * 1024 * 100); // browser
     }
+    
 
     $scope.expenseDel = function(id) {
 
@@ -423,6 +474,39 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker',
     $scope.expenseDate ="Not Set";
 
 
+
+    $scope.categories = [];
+
+    $scope.getCatList = function(id) {
+
+        $cordovaSQLite.execute(db, "select * from categories", []).then(function(res) {
+
+
+
+            $scope.categories = [];
+            //console.log(res);
+
+            for(var i = 0; i< res.rows.length; i++){
+
+                $scope.categories.push({
+
+                    icon : res.rows[i].icon,
+                    type : res.rows[i].type,
+                    name : res.rows[i].name,
+                    id : res.rows[i].id
+
+                });
+
+            }
+
+        }, function (err) {
+            console.error(err);
+        });
+    };
+
+    $scope.getCatList();
+
+
 })
 
 //IncController
@@ -431,7 +515,6 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker',
     .controller('IncController',function($scope,$http,$cordovaSQLite,$ionicModal,$cordovaDatePicker, ionicDatePicker){
 
     console.log("working");
-
 
 
 
@@ -578,7 +661,37 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker',
     };
     $scope.incomeDate ="Not Set";
 
+    $scope.categories = [];
 
+    $scope.getCatList = function(id) {
+
+        $cordovaSQLite.execute(db, "select * from categories", []).then(function(res) {
+
+
+
+            $scope.categories = [];
+            //console.log(res);
+
+            for(var i = 0; i< res.rows.length; i++){
+
+                $scope.categories.push({
+
+                    icon : res.rows[i].icon,
+                    type : res.rows[i].type,
+                    name : res.rows[i].name,
+                    id : res.rows[i].id
+
+                });
+
+            }
+
+        }, function (err) {
+            console.error(err);
+        });
+    };
+    
+    
+    $scope.getCatList();
 })
 
 //BudController
@@ -616,9 +729,17 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker',
             console.log(res);
 
 
-            $scope.totIncome = res.rows[0].income;
-            $scope.totExpense = res.rows[0].expense;
-            $scope.total = $scope.totIncome - $scope.totExpense;
+            $scope.totIncome = parseFloat(res.rows[0].income);
+            $scope.totExpense = parseFloat(res.rows[0].expense);
+            if(isNaN( $scope.totIncome)){
+                $scope.totIncome = 0;
+            }
+
+            if(isNaN(  $scope.totExpense)){
+                $scope.totExpense = 0;
+            }
+
+            $scope.total = parseFloat($scope.totIncome - $scope.totExpense);
 
             $scope.labels = ["Income", "Expenses"];
 
@@ -658,11 +779,184 @@ angular.module('starter', ['ionic','ngCordova','ngMessages', 'ionic-datepicker',
     $scope.toggleLeftSideMenu = function() {
         $ionicSideMenuDelegate.toggleLeft();
     };
-}).controller('CatController',function ($scope, $ionicSideMenuDelegate) {
+}).controller('CatController',function ( $ionicSideMenuDelegate ,$scope,$http,$cordovaSQLite,$ionicModal,$cordovaDatePicker, ionicDatePicker) {
 
     $scope.toggleLeftSideMenu = function() {
         $ionicSideMenuDelegate.toggleLeft();
+
     };
+
+
+
+    //define db variable
+    var db;
+
+    if (window.cordova) {
+        db = $cordovaSQLite.openDB({ name: "my.db" }); //device
+    }
+
+    else{
+        db = window.openDatabase("my.db", '1', 'my', 1024 * 1024 * 100); // browser
+    }
+
+
+    //get category list from database
+    $scope.categories = [];
+
+    $scope.getCatList = function(id) {
+
+        $cordovaSQLite.execute(db, "select * from categories", []).then(function(res) {
+
+
+
+            $scope.categories = [];
+            //console.log(res);
+
+            for(var i = 0; i< res.rows.length; i++){
+
+                $scope.categories.push({
+
+                    icon : res.rows[i].icon,
+                    type : res.rows[i].type,
+                    name : res.rows[i].name,
+                    id : res.rows[i].id
+
+                });
+
+            }
+
+        }, function (err) {
+            console.error(err);
+        });
+    };
+
+    $scope.getCatList();
+
+
+    //insert category modal declarion
+    $ionicModal.fromTemplateUrl('templates/insertCatModal.html',{
+
+        scope : $scope,
+        animation : 'slide-in-up'    
+
+    }).then(function(modal){
+
+        $scope.catModal = modal;
+
+    });
+
+
+    $scope.addCatModal = function(){
+
+        $scope.catModal.show();
+
+
+    };
+    $scope.closeIncomeModal = function(){
+
+        $scope.catModal.hide();
+
+    }
+
+
+
+
+    $scope.saveCat= function(cat){
+
+        console.log(cat);
+
+        $cordovaSQLite.execute(db, "insert into  categories (name,type,icon) values(?,?,?)", [cat.name, cat.type,"N/A"]).then(function(res) {
+            console.log("insertId: " + res.insertId);
+            $scope.getCatList();
+
+        }, function (err) {
+            console.error(err);
+        });
+
+    };
+
+
+
+    $ionicModal.fromTemplateUrl('templates/catInfo.html',{
+
+        scope : $scope,
+        animation : 'slide-in-up'    
+
+    }).then(function(modal){
+
+        $scope.catModalInfo = modal;
+
+    });
+
+    $scope.openInfo = function(catName){
+
+        $scope.catModalInfo.show();
+        $scope.catName = catName;
+        $scope.getBugetList(catName);
+
+    };
+
+    $scope.closeInfo = function(){
+
+        $scope.catModalInfo.hide();
+
+    };
+
+
+
+    $scope.getBugetList = function(catName){
+
+        $cordovaSQLite.execute(db, "select * from main2  where e_category = ? order by date desc", [catName]).then(function(res) {
+            $scope.bList = [];
+            console.log(res);
+
+            for(var i = 0; i < res.rows.length; i++){
+                console.log(res.rows[i].amount);
+
+                $scope.bList.push({
+                    amount : res.rows[i].amount,
+                    note : res.rows[i].note,
+                    account : res.rows[i].account,  
+                    date : res.rows[i].date,
+                    e_category : res.rows[i].e_category,
+                    date : res.rows[i].date,
+                    id : res.rows[i].id ,
+                    type: res.rows[i].type
+                });
+            } 
+
+
+        }, function (err) {
+            console.error(err);
+        });
+
+
+        $cordovaSQLite.execute(db, "select (select SUM(amount) from main2 b where b.e_category = ? and type = 'INCOME' ) as income, (select SUM(amount) from main2 b where b.e_category = ? and type = 'EXPENSE' ) as expense from main2   order by date desc", [catName,catName]).then(function(res) {
+            $scope.income = parseFloat(res.rows[0].income).toFixed(2);
+            $scope.expense = parseFloat(res.rows[0].expense).toFixed(2);
+
+            if(isNaN( $scope.income)){
+                $scope.income = 0;
+            }
+
+            if(isNaN( $scope.expense)){
+                $scope.expense = 0;
+            }
+
+
+            console.log(res)
+
+
+
+
+        }, function (err) {
+            console.error(err);
+        });
+
+
+    };
+
+
 });
 
 
