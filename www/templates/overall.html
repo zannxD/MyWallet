@@ -67,7 +67,7 @@
 
                 </div>
                 <div class="col-50">
-                    <h2 class="pull-right padding-right">  <font color="grey"> {{total | currency :"Rs."}}  </font> </h2>
+                    <h2 class="pull-right padding-right">  <font color="grey"> <span ng-if="total <= 0 "> - </span> {{total | currency :"Rs."}}  </font> </h2>
                 </div>
             </div>
         </ion-item>
